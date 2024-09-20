@@ -18,13 +18,13 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Set static folder
+// Seting  static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 const botName = "ChatApp Bot";
  
 
-// Run when client connects
+// returning when client connects
 io.on("connection", (socket) => {
   console.log(io.of("/").adapter);
   socket.on("joinRoom", ({ username, room }) => {
@@ -32,10 +32,10 @@ io.on("connection", (socket) => {
 
     socket.join(user.room);
 
-    // Welcome current user
+    // Welcoming current user
     socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
 
-    // Broadcast when a user connects
+    // Broadcasting when a user connects
     socket.broadcast
       .to(user.room)
       .emit(
@@ -43,21 +43,21 @@ io.on("connection", (socket) => {
         formatMessage(botName, `${user.username} has joined the chat`)
       );
 
-    // Send users and room info
+    // retruning users and room info
     io.to(user.room).emit("roomUsers", {
       room: user.room,
       users: getRoomUsers(user.room),
     });
   });
 
-  // Listen for chatMessage
+  // Listening for chatMessage
   socket.on("chatMessage", (msg) => {
     const user = getCurrentUser(socket.id);
 
     io.to(user.room).emit("message", formatMessage(user.username, msg));
   });
 
-  // Runs when client disconnects
+  // retruning when client disconnects
   socket.on("disconnect", () => {
     const user = userLeave(socket.id);
 
@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
         formatMessage(botName, `${user.username} has left the chat`)
       );
 
-      // Send users and room info
+      // returnin users and room info
       io.to(user.room).emit("roomUsers", {
         room: user.room,
         users: getRoomUsers(user.room),
