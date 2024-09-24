@@ -2,7 +2,7 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
-const formatMessage = require("./utils/messages");
+const formatingmess = require("./utils/messages");
 const createAdapter = require("@socket.io/redis-adapter").createAdapter;
 const redis = require("redis");
 require("dotenv").config();
@@ -33,14 +33,14 @@ io.on("connection", (socket) => {
     socket.join(user.room);
 
     // Welcoming current user
-    socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
+    socket.emit("message", formatingmess(botName, "Welcome to ChatCord!"));
 
     // Broadcasting when a user connects
     socket.broadcast
       .to(user.room)
       .emit(
         "message",
-        formatMessage(botName, `${user.username} has joined the chat`)
+        formatingmess(botName, `${user.username} has joined the chat`)
       );
 
     // retruning users and room info
@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
   socket.on("chatMessage", (msg) => {
     const user = getCurrentUser(socket.id);
 
-    io.to(user.room).emit("message", formatMessage(user.username, msg));
+    io.to(user.room).emit("message", formatingmess(user.username, msg));
   });
 
   // retruning when client disconnects
@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.room).emit(
         "message",
-        formatMessage(botName, `${user.username} has left the chat`)
+        formatingmess(botName, `${user.username} has left the chat`)
       );
 
       // returnin users and room info
