@@ -1,5 +1,5 @@
 const moment = require('moment');
-
+//formatting masseges
 function formatMessage(username, text) {
   return {
     username,
