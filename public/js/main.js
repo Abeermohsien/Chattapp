@@ -1,7 +1,7 @@
 const chatingForm = document.getElementById('chat-form');
-const chatMessages = document.querySelector('.chat-messages');
-const roomName = document.getElementById('room-name');
-const userList = document.getElementById('users');
+const chatingMessages = document.querySelector('.chat-messages');
+const roomsName = document.getElementById('room-name');
+const usersList = document.getElementById('users');
 
 // return anme and room
 const { username, room } = Qs.parse(location.search, {
@@ -25,7 +25,7 @@ socket.on('message', (message) => {
   outputMessage(message);
 
   // go down
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  chatingMessages.scrollTop = chatingMessages.scrollHeight;
 });
 
 // save message 
@@ -67,16 +67,16 @@ function outputMessage(message) {
 
 // get user to dom
 function outputRoomName(room) {
-  roomName.innerText = room;
+  roomsName.innerText = room;
 }
 
 // get user to dom
 function outputUsers(users) {
-  userList.innerHTML = '';
+  usersList.innerHTML = '';
   users.forEach((user) => {
     const li = document.createElement('li');
     li.innerText = user.username;
-    userList.appendChild(li);
+    usersList.appendChild(li);
   });
 }
 
